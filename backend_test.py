@@ -227,15 +227,29 @@ startxref
         # Create test image
         image_content = self.create_test_image()
         
-        # Test image rotation
+        # Test image rotation - use query parameters
         files = {'file': ('test.png', image_content, 'image/png')}
-        data = {'rotation': 90}
-        self.run_post_test("Image Rotate", "image/rotate", data=data, files=files, expected_status=200)
+        url = f"{self.base_url}/api/image/rotate?rotation=90"
+        try:
+            print(f"\n🔍 Testing Image Rotate...")
+            print(f"   URL: {url}")
+            response = requests.post(url, files=files, timeout=30)
+            success = response.status_code == 200
+            self.log_test("Image Rotate", success, f"Expected 200, got {response.status_code}")
+        except Exception as e:
+            self.log_test("Image Rotate", False, f"Exception: {str(e)}")
         
-        # Test image resize
+        # Test image resize - use query parameters
         files = {'file': ('test.png', image_content, 'image/png')}
-        data = {'width': 50, 'height': 50}
-        self.run_post_test("Image Resize", "image/resize", data=data, files=files, expected_status=200)
+        url = f"{self.base_url}/api/image/resize?width=50&height=50"
+        try:
+            print(f"\n🔍 Testing Image Resize...")
+            print(f"   URL: {url}")
+            response = requests.post(url, files=files, timeout=30)
+            success = response.status_code == 200
+            self.log_test("Image Resize", success, f"Expected 200, got {response.status_code}")
+        except Exception as e:
+            self.log_test("Image Resize", False, f"Exception: {str(e)}")
 
     def test_conversion_endpoints(self):
         """Test unit conversion endpoints"""
