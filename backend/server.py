@@ -15,6 +15,7 @@ from PyPDF2 import PdfWriter, PdfReader
 from PIL import Image
 import tempfile
 import json
+import zipfile
 
 ROOT_DIR = Path(__file__).parent
 load_dotenv(ROOT_DIR / '.env')
@@ -381,6 +382,36 @@ async def get_image_analytics():
     except Exception as e:
         logger.error(f"Error getting image analytics: {str(e)}")
         raise HTTPException(status_code=500, detail="Error getting analytics")
+
+@api_router.get("/download/project")
+async def download_project():
+    """Download the entire project as a zip file"""
+    try:
+        # Create a temporary file to store the zip archive
+        with tempfile.NamedTemporaryFile(delete=False, suffix=".zip") as tmp_zip:
+            # Create a ZipFile object
+            with zipfile.ZipFile(tmp_zip, 'w', zipfile.ZIP_DEFLATED) as zipf:
+                # Walk through the project directory and add files to the zip
+                for root, dirs, files in os.walk(ROOT_DIR):
+                    for file in files:
+                        # Create a relative path for the files in the zip
+                        file_path = os.path.join(root, file)
+                        arcname = os.path.relpath(file_path, ROOT_DIR)
+                        zipf.write(file_path, arcname)
+
+            # Go to the beginning of the file
+            tmp_zip.seek(0)
+
+            # Stream the zip file as a response
+            return StreamingResponse(
+                iter([tmp_zip.read()]),
+                media_type="application/zip",
+                headers={"Content-Disposition": "attachment; filename=project.zip"}
+            )
+
+    except Exception as e:
+        logger.error(f"Error creating project zip: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Error creating project zip: {str(e)}")
 
 @api_router.get("/analytics/conversions")
 async def get_conversion_analytics():

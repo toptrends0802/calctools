@@ -25,6 +25,10 @@ const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 // Home Component
 const Home = () => {
   const navigate = useNavigate();
+
+  const handleDownloadProject = () => {
+    window.location.href = `${BACKEND_URL}/api/download/project`;
+  };
   
   const tools = [
     {
@@ -127,6 +131,17 @@ const Home = () => {
             );
           })}
         </div>
+      </div>
+
+      {/* Download Project Button */}
+      <div className="text-center py-8">
+        <button
+          onClick={handleDownloadProject}
+          className="bg-gray-800 text-white px-8 py-4 rounded-lg font-bold hover:bg-gray-700 transition-colors"
+        >
+          <Download className="inline-block w-6 h-6 mr-2" />
+          Download Full Project
+        </button>
       </div>
 
       {/* Ad Banner - Puma Style */}
