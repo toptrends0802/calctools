@@ -81,40 +81,45 @@ const Home = () => {
         <div className="absolute bottom-0 left-0 w-full h-8 bg-red-500 transform -skew-y-1"></div>
       </div>
 
-      {/* Tools Grid */}
-      <div className="px-4 py-8">
-        <h2 className="text-2xl font-bold text-gray-800 mb-6 text-center">
-          Choose Your Tool
+      {/* Tools Grid - Puma Style */}
+      <div className="px-4 py-16 bg-gray-100">
+        <h2 className="text-4xl md:text-6xl font-black text-black mb-12 text-center tracking-tight">
+          CHOOSE YOUR<br/>
+          <span className="text-red-500">WEAPON</span>
         </h2>
         
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-7xl mx-auto">
           {tools.map((tool) => {
             const IconComponent = tool.icon;
             return (
               <div
                 key={tool.id}
                 onClick={() => navigate(`/${tool.id}`)}
-                className="group cursor-pointer transform transition-all duration-300 hover:scale-105"
+                className="group cursor-pointer transform transition-all duration-300 hover:scale-105 hover:-translate-y-2"
               >
-                <div className="bg-white rounded-2xl shadow-lg overflow-hidden border border-gray-200">
-                  <div className={`${tool.color} p-6 text-white`}>
-                    <IconComponent className="w-12 h-12 mb-4" />
-                    <h3 className="text-xl font-bold mb-2">{tool.title}</h3>
-                    <p className="text-white/90 text-sm">{tool.description}</p>
+                <div className="bg-white rounded-none shadow-2xl overflow-hidden border-4 border-black relative">
+                  {/* Diagonal accent stripe */}
+                  <div className="absolute top-0 right-0 w-20 h-20 bg-red-500 transform rotate-45 translate-x-10 -translate-y-10"></div>
+                  
+                  <div className="bg-black p-8 text-white relative">
+                    <IconComponent className="w-16 h-16 mb-6 text-red-500" />
+                    <h3 className="text-2xl font-black mb-3 tracking-wide">{tool.title.split(' ')[0]}</h3>
+                    <h3 className="text-2xl font-black mb-4 text-red-500 tracking-wide">{tool.title.split(' ')[1] || ''}</h3>
+                    <p className="text-gray-300 text-sm font-semibold uppercase tracking-widest">{tool.description}</p>
                   </div>
                   
-                  <div className="p-6">
-                    <ul className="space-y-2">
+                  <div className="p-8 bg-white">
+                    <ul className="space-y-3 mb-6">
                       {tool.features.map((feature, index) => (
-                        <li key={index} className="flex items-center text-gray-600">
-                          <div className="w-2 h-2 bg-gray-400 rounded-full mr-3"></div>
+                        <li key={index} className="flex items-center text-black font-semibold">
+                          <div className="w-3 h-3 bg-red-500 mr-4"></div>
                           {feature}
                         </li>
                       ))}
                     </ul>
                     
-                    <button className="w-full mt-4 bg-gray-800 text-white py-3 rounded-xl font-medium hover:bg-gray-700 transition-colors">
-                      Open Tool
+                    <button className="w-full bg-black text-white py-4 font-black text-lg tracking-wide hover:bg-red-500 transition-colors transform hover:scale-105">
+                      GO
                     </button>
                   </div>
                 </div>
