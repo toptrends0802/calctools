@@ -55,23 +55,30 @@ const Home = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
-      {/* Hero Section */}
-      <div className="relative bg-gradient-to-r from-indigo-600 to-purple-600 text-white">
+      {/* Hero Section - Puma Inspired */}
+      <div className="relative bg-black text-white overflow-hidden">
         <div 
-          className="absolute inset-0 bg-cover bg-center opacity-20"
+          className="absolute inset-0 bg-cover bg-center opacity-30"
           style={{
-            backgroundImage: 'url(https://images.unsplash.com/photo-1726056652641-de93ec003289)'
+            backgroundImage: 'url(https://images.unsplash.com/photo-1599474924187-334a4ae5bd3c?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NDQ2MzR8MHwxfHNlYXJjaHwxfHxzcG9ydHN8ZW58MHx8fGJsYWNrfDE3NTIzOTcwODN8MA&ixlib=rb-4.1.0&q=85)'
           }}
         ></div>
-        <div className="relative px-4 py-16 text-center">
-          <Smartphone className="w-16 h-16 mx-auto mb-4 text-white/90" />
-          <h1 className="text-4xl font-bold mb-4">
-            Mobile Tools Hub
-          </h1>
-          <p className="text-xl opacity-90 max-w-2xl mx-auto">
-            Your all-in-one productivity suite for PDF management, image editing, and unit conversion
-          </p>
+        <div className="relative px-4 py-20 text-center">
+          <div className="max-w-4xl mx-auto">
+            <h1 className="text-6xl md:text-8xl font-black mb-6 tracking-tight leading-none">
+              TOOLS
+              <span className="block text-red-500">HUB</span>
+            </h1>
+            <p className="text-xl md:text-2xl font-semibold mb-8 max-w-3xl mx-auto leading-relaxed">
+              UNLEASH YOUR PRODUCTIVITY
+            </p>
+            <div className="inline-block bg-red-500 text-white px-8 py-3 text-lg font-bold transform -skew-x-12">
+              READY TO DOMINATE
+            </div>
+          </div>
         </div>
+        {/* Diagonal accent */}
+        <div className="absolute bottom-0 left-0 w-full h-8 bg-red-500 transform -skew-y-1"></div>
       </div>
 
       {/* Tools Grid */}
