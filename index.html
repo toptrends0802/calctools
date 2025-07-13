@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Financial Tools Platform</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    body {
+      font-family: 'Roboto', sans-serif;
+      margin: 0;
+      background: #f0f4f8;
+      color: #1a2b4c;
+    }
+    header {
+      background: #1a2b4c;
+      color: white;
+      padding: 1em;
+      text-align: center;
+    }
+    nav {
+      display: flex;
+      justify-content: space-around;
+      background: #009688;
+      padding: 0.5em;
+    }
+    nav a {
+      color: white;
+      font-weight: bold;
+      text-decoration: none;
+    }
+    .container {
+      padding: 1em;
+      max-width: 800px;
+      margin: auto;
+    }
+    .card {
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      padding: 1em;
+      margin: 1.5em 0;
+    }
+    input, select, button {
+      width: 100%;
+      padding: 0.6em;
+      margin-top: 0.5em;
+      font-size: 1em;
+      box-sizing: border-box;
+    }
+    button {
+      background: #009688;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      margin-top: 1em;
+      cursor: pointer;
+    }
+    canvas {
+      margin-top: 1em;
+      width: 100%;
+      max-height: 300px;
+    }
+    .result {
+      margin-top: 1em;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>Financial Tools Platform</h1>
+</header>
+
+<nav>
+  <a href="#interest">Interest</a>
+  <a href="#calculator">Calculator</a>
+  <a href="#converter">Converter</a>
+</nav>
+
+<div class="container">
+
+  <section id="interest" class="card">
+    <h2>Interest Calculator</h2>
+    <label>Principal ($)</label>
+    <input type="number" id="principal" placeholder="e.g. 1000">
+    <label>APR (%)</label>
+    <input type="number" id="rate" placeholder="e.g. 5">
+    <label>Term (Years)</label>
+    <input type="number" id="term" placeholder="e.g. 2">
+    <label>Compounding Frequency</label>
+    <select id="frequency">
+      <option value="1">Annually</option>
+      <option value="4">Quarterly</option>
+      <option value="12" selected>Monthly</option>
+    </select>
+    <button onclick="calculateInterest()">Calculate</button>
+    <div class="result" id="interestResult"></div>
+    <canvas id="interestChart"></canvas>
+  </section>
+
+  <section id="calculator" class="card">
+    <h2>Scientific Calculator</h2>
+    <input type="text" id="calcInput" placeholder="e.g. sin(45)+log(100)">
+    <button onclick="calculateScientific()">Evaluate</button>
+    <div class="result" id="calcResult"></div>
+  </section>
+
+  <section id="converter" class="card">
+    <h2>Length Converter</h2>
+    <label>Meters</label>
+    <input type="number" id="fromMeters" placeholder="e.g. 1.5">
+    <button onclick="convertUnits()">Convert to Feet</button>
+    <div class="result" id="toFeet"></div>
+  </section>
+
+</div>
+
+<script>
+  function calculateInterest() {
+    const P = parseFloat(document.getElementById('principal').value);
+    const r = parseFloat(document.getElementById('rate').value) / 100;
+    const t = parseFloat(document.getElementById('term').value);
+    const n = parseInt(document.getElementById('frequency').value);
+
+    if (isNaN(P) || isNaN(r) || isNaN(t) || isNaN(n)) {
+      document.getElementById('interestResult').innerText = 'Please enter all values.';
+      return;
+    }
+
+    const A = P * Math.pow((1 + r / n), n * t);
+    const interest = A - P;
+
+    document.getElementById('interestResult').innerHTML = `
+      Total Interest: $${interest.toFixed(2)}<br>
+      Total Amount: $${A.toFixed(2)}
+    `;
+
+    const ctx = document.getElementById('interestChart').getContext('2d');
+    new Chart(ctx, {
+      type: 'pie',
+      data: {
+        labels: ['Principal', 'Interest'],
+        datasets: [{
+          data: [P, interest],
+          backgroundColor: ['#1a2b4c', '#009688']
+        }]
+      },
+      options: { responsive: true }
+    });
+  }
+
+  function calculateScientific() {
+    try {
+      let input = document.getElementById('calcInput').value;
+      input = input
+        .replace(/sin/gi, 'Math.sin')
+        .replace(/cos/gi, 'Math.cos')
+        .replace(/tan/gi, 'Math.tan')
+        .replace(/log/gi, 'Math.log10')
+        .replace(/pi/gi, 'Math.PI')
+        .replace(/e/gi, 'Math.E');
+
+      const result = eval(input);
+      document.getElementById('calcResult').innerText = `Result: ${result}`;
+    } catch {
+      document.getElementById('calcResult').innerText = 'Invalid expression';
+    }
+  }
+
+  function convertUnits() {
+    const meters = parseFloat(document.getElementById('fromMeters').value);
+    if (isNaN(meters)) {
+      document.getElementById('toFeet').innerText = 'Please enter a number.';
+      return;
+    }
+    const feet = meters * 3.28084;
+    document.getElementById('toFeet').innerText = `${meters} meters = ${feet.toFixed(2)} feet`;
+  }
+</script>
+
+</body>
+</html>
