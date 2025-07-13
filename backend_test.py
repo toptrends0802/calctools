@@ -257,35 +257,47 @@ startxref
         print("TESTING CONVERSION ENDPOINTS")
         print("="*50)
         
-        # Test length conversion
-        conversion_data = {
-            "category": "length",
-            "from_unit": "meter",
-            "to_unit": "feet",
-            "value": 1.0,
-            "country": "US"
-        }
-        self.run_post_test("Length Conversion", "convert", conversion_data, expected_status=200)
+        # Test length conversion - use query parameters
+        url = f"{self.base_url}/api/convert?category=length&from_unit=meter&to_unit=feet&value=1.0&country=US"
+        try:
+            print(f"\n🔍 Testing Length Conversion...")
+            print(f"   URL: {url}")
+            response = requests.post(url, timeout=10)
+            success = response.status_code == 200
+            if success:
+                data = response.json()
+                print(f"   Response: {json.dumps(data, indent=2)}")
+            self.log_test("Length Conversion", success, f"Expected 200, got {response.status_code}")
+        except Exception as e:
+            self.log_test("Length Conversion", False, f"Exception: {str(e)}")
         
         # Test weight conversion
-        conversion_data = {
-            "category": "weight",
-            "from_unit": "kilogram",
-            "to_unit": "pound",
-            "value": 1.0,
-            "country": "US"
-        }
-        self.run_post_test("Weight Conversion", "convert", conversion_data, expected_status=200)
+        url = f"{self.base_url}/api/convert?category=weight&from_unit=kilogram&to_unit=pound&value=1.0&country=US"
+        try:
+            print(f"\n🔍 Testing Weight Conversion...")
+            print(f"   URL: {url}")
+            response = requests.post(url, timeout=10)
+            success = response.status_code == 200
+            if success:
+                data = response.json()
+                print(f"   Response: {json.dumps(data, indent=2)}")
+            self.log_test("Weight Conversion", success, f"Expected 200, got {response.status_code}")
+        except Exception as e:
+            self.log_test("Weight Conversion", False, f"Exception: {str(e)}")
         
         # Test temperature conversion
-        conversion_data = {
-            "category": "temperature",
-            "from_unit": "celsius",
-            "to_unit": "fahrenheit",
-            "value": 0.0,
-            "country": "US"
-        }
-        self.run_post_test("Temperature Conversion", "convert", conversion_data, expected_status=200)
+        url = f"{self.base_url}/api/convert?category=temperature&from_unit=celsius&to_unit=fahrenheit&value=0.0&country=US"
+        try:
+            print(f"\n🔍 Testing Temperature Conversion...")
+            print(f"   URL: {url}")
+            response = requests.post(url, timeout=10)
+            success = response.status_code == 200
+            if success:
+                data = response.json()
+                print(f"   Response: {json.dumps(data, indent=2)}")
+            self.log_test("Temperature Conversion", success, f"Expected 200, got {response.status_code}")
+        except Exception as e:
+            self.log_test("Temperature Conversion", False, f"Exception: {str(e)}")
 
     def run_all_tests(self):
         """Run all API tests"""
