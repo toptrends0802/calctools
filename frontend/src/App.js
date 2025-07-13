@@ -129,9 +129,14 @@ const Home = () => {
         </div>
       </div>
 
-      {/* Ad Banner */}
-      <div className="fixed bottom-0 left-0 right-0 bg-gray-800 text-white p-4 text-center">
-        <p className="text-sm">📱 Get Premium - Remove Ads & Unlock All Features</p>
+      {/* Ad Banner - Puma Style */}
+      <div className="fixed bottom-0 left-0 right-0 bg-black text-white border-t-4 border-red-500">
+        <div className="px-4 py-3 text-center">
+          <p className="text-sm font-bold tracking-widest">
+            🔥 GO PREMIUM - UNLEASH ALL FEATURES 
+            <span className="ml-2 bg-red-500 px-2 py-1 text-xs font-black">NO LIMITS</span>
+          </p>
+        </div>
       </div>
     </div>
   );
