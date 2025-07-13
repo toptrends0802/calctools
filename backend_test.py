@@ -205,14 +205,22 @@ startxref
         # Create test PDF
         pdf_content = self.create_test_pdf()
         
-        # Test PDF merge (need at least 2 files)
-        files = {
-            'files': [
-                ('test1.pdf', pdf_content, 'application/pdf'),
-                ('test2.pdf', pdf_content, 'application/pdf')
-            ]
-        }
-        self.run_post_test("PDF Merge", "pdf/merge", files=files, expected_status=200)
+        # Test PDF merge (need at least 2 files) - fix file upload format
+        files = [
+            ('files', ('test1.pdf', pdf_content, 'application/pdf')),
+            ('files', ('test2.pdf', pdf_content, 'application/pdf'))
+        ]
+        url = f"{self.base_url}/api/pdf/merge"
+        try:
+            print(f"\n🔍 Testing PDF Merge...")
+            print(f"   URL: {url}")
+            response = requests.post(url, files=files, timeout=30)
+            success = response.status_code == 200
+            if success:
+                print(f"   Response: Binary data ({len(response.content)} bytes)")
+            self.log_test("PDF Merge", success, f"Expected 200, got {response.status_code}")
+        except Exception as e:
+            self.log_test("PDF Merge", False, f"Exception: {str(e)}")
         
         # Test PDF split
         files = {'file': ('test.pdf', pdf_content, 'application/pdf')}
